@@ -30,3 +30,10 @@ cilium-debug-agent:
 
 grafana-mcp:
   enabled: false
+
+otel:
+  tracing:
+    enabled: true
+    exporter:
+      otlp:
+        endpoint: http://otel-collector.observability:4317

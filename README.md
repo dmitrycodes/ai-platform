@@ -18,6 +18,8 @@ tracing and observability, and secrets management. Only kagent is installed so f
 |---|---|
 | Kubernetes (kind node image) | v1.36.4, pinned by digest in `cluster/kind-config.yaml` |
 | kagent | 0.10.4 (`KAGENT_VERSION` in the `Makefile`) |
+| Jaeger (Helm chart) | 4.16.1 (app 2.22.0), `JAEGER_VERSION` in the `Makefile` |
+| OpenTelemetry Collector (Helm chart) | 0.178.1 (app 0.163.2), `OTELCOL_VERSION` in the `Makefile` |
 
 ## Kubeconfig
 
@@ -34,12 +36,17 @@ export KUBECONFIG=~/.kube/ai-platform.config
 | Command | What it does |
 |---|---|
 | `make cluster` | Creates the kind cluster `ai-platform` |
+| `make tracing` | Installs Jaeger and the OpenTelemetry Collector in the `observability` namespace |
 | `make kagent-secret` | Asks for your Anthropic API key (hidden input) and stores it as a Kubernetes Secret |
 | `make kagent` | Installs the kagent CRDs and kagent (values in `kagent/values.yaml`) and waits until ready |
 | `make kagent-ui` | Port-forwards the kagent UI to http://localhost:8080 |
+| `make jaeger-ui` | Port-forwards the Jaeger UI to http://localhost:16686 |
 | `make down` | Deletes the cluster |
 
-Run them in that order. The API key is never stored in this repository.
+Build in this order: `make cluster`, `make tracing`, `make kagent-secret`, `make kagent`.
+The UI targets (`make kagent-ui`, `make jaeger-ui`) can be run any time after their
+component is installed, and `make down` deletes everything. The API key is never stored
+in this repository.
 
 ## Repository safeguards
 
